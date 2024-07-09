@@ -67,5 +67,8 @@ def get_llm():
                 kernel.add_chat_service("dv", AzureChatCompletion(deployment_name=deployment, endpoint=endpoint, ad_token=access_token.token))
             else:
                 print("Authenticating to Azure OpenAI with OpenAI API key")
+                print(api_key)
+                print(deployment)
+                print(endpoint)
                 kernel.add_chat_service("dv", AzureChatCompletion(deployment_name=deployment, endpoint=endpoint, api_key=api_key))
     return kernel, useLocalLLM, endpoint

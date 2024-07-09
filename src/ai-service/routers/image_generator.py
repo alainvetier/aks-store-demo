@@ -30,14 +30,31 @@ async def post_image(request: Request) -> JSONResponse:
         api_version = os.environ.get("AZURE_OPENAI_API_VERSION")
         endpoint = os.environ.get("AZURE_OPENAI_DALLE_ENDPOINT")
         model_deployment_name = os.environ.get("AZURE_OPENAI_DALLE_DEPLOYMENT_NAME")
-        
-        token_provider = get_bearer_token_provider(DefaultAzureCredential(), "https://cognitiveservices.azure.com/.default")
-        
-        client = AzureOpenAI(
-            api_version=api_version,
-            azure_endpoint=endpoint,
-            azure_ad_token_provider=token_provider,
-        )
+
+        useAzureAD: str = os.environ.get("USE_AZURE_AD")
+        api_key: str = os.environ.get("AZURE_OPENAI_DALLE_API_KEY")
+        deployment: str = os.environ.get("AZURE_OPENAI_DEPLOYMENT_NAME")
+
+        if isinstance(useAzureAD, str) == True and useAzureAD.lower() == "true":
+            print("Authenticating to Azure OpenAI with Azure AD Workload Identity")
+            token_provider = get_bearer_token_provider(DefaultAzureCredential(), "https://cognitiveservices.azure.com/.default")
+
+            client = AzureOpenAI(
+                api_version=api_version,
+                azure_endpoint=endpoint,
+                azure_ad_token_provider=token_provider,
+            )
+        else:
+            print("Authenticating to Azure OpenAI with OpenAI API key")
+            print(api_key)
+            print(deployment)
+            print(endpoint)
+            client = AzureOpenAI(
+                api_version=api_version,
+                azure_endpoint=endpoint,
+                api_key=api_key,
+            )
+
 
         result = client.images.generate(
             model=model_deployment_name,
