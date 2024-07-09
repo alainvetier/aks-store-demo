@@ -1,0 +1,9 @@
+export USE_AZURE_OPENAI=True # set to False if you are not using Azure OpenAI
+export AZURE_OPENAI_DEPLOYMENT_NAME=my-gpt35
+export AZURE_OPENAI_API_VERSION="2024-02-01"
+export AZURE_OPENAI_ENDPOINT=
+export OPENAI_API_KEY=
+export OPENAI_ORG_ID= # required if using OpenAI
+export AZURE_OPENAI_DALLE_ENDPOINT=
+export AZURE_OPENAI_DALLE_DEPLOYMENT_NAME=dalle3
+export AZURE_OPENAI_DALLE_API_KEY=
